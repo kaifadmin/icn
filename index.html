@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking Fundamentals - Detailed Guide</title>
+    <!-- Tailwind CSS for Responsive Design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for Signal Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Mermaid.js for Diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+        .content-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); margin-bottom: 2rem; padding: 1.5rem; }
+        h1, h2, h3 { color: #0f172a; font-weight: bold; }
+        h2 { color: #1d4ed8; }
+        canvas { max-height: 250px; width: 100% !important; }
+        .mermaid { display: flex; justify-content: center; background-color: #f1f5f9; border-radius: 8px; padding: 10px; margin-bottom: 15px; }
+        svg text { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl mb-4 text-blue-800">Networking Comprehensive Guide</h1>
+            <p class="text-gray-500 italic">Detailed explanation of networking topics, models, and transmission types.</p>
+        </header>
+
+        <!-- UNIT 1 -->
+        <section id="unit1">
+            <h2 class="text-2xl border-b-2 border-blue-500 mb-6 pb-2">Unit 1: Introduction to Networking & Network Models</h2>
+            
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Basics of Networking</h3>
+                <p>A <strong>computer network</strong> is a group of interconnected computers and devices that can communicate with one another to share resources, data, and applications.</p>
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
+                        <p class="font-bold text-green-800 mb-1">Advantages:</p>
+                        <p class="text-sm">They allow for shared resources (like printers), centralized data management, rapid communication and collaboration, and access to remote information.</p>
+                    </div>
+                    <div class="bg-red-50 border border-red-200 p-4 rounded-lg">
+                        <p class="font-bold text-red-800 mb-1">Disadvantages:</p>
+                        <p class="text-sm">Networks require a high initial setup cost, introduce security risks and vulnerabilities to viruses/malware, demand specialized maintenance, and create a dependency on central infrastructure.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Network Types (LAN, MAN, WAN)</h3>
+                <ul class="list-disc ml-5 space-y-3 text-sm">
+                    <li><strong>LAN (Local Area Network):</strong> Designed to operate within a limited geographic area (like an office or building). They allow multi-access to high-bandwidth media, are privately administered, and provide full-time connectivity to physically adjacent devices.</li>
+                    <li><strong>WAN (Wide Area Network):</strong> Operates over massive geographic areas using telecommunications carriers. They allow access over serial interfaces operating at lower speeds and can connect devices globally.</li>
+                    <li><strong>MAN (Metropolitan Area Network):</strong> A network that spans a physical area larger than a LAN but smaller than a WAN, such as a city or a large university campus. It is typically used to connect several LANs together to form a larger network.</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-5">Network Topologies</h3>
+                <p class="mb-6 text-sm">Topology defines the physical and logical structure of how network components are interconnected.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Bus Topology -->
+                    <div>
+                        <div class="mermaid">
+                            graph TD
+                            Backbone[Main Cable Backbone]
+                            N1((Node)) --- Backbone
+                            N2((Node)) --- Backbone
+                            N3((Node)) --- Backbone
+                        </div>
+                        <p class="text-sm"><strong>Bus Topology:</strong> All stations connect to a single backbone cable. It is cost-effective and failure in one node does not affect the rest, but if the main cable fails, the entire network is disrupted. It also suffers from signal interference if two nodes transmit simultaneously.</p>
+                    </div>
+
+                    <!-- Ring Topology -->
+                    <div>
+                        <div class="mermaid">
+                            graph LR
+                            A((Node)) --- B((Node))
+                            B --- C((Node))
+                            C --- D((Node))
+                            D --- A
+                        </div>
+                        <p class="text-sm"><strong>Ring Topology:</strong> Devices connect to exactly two neighboring devices, forming a ring. Transmissions are usually unidirectional and pass through nodes sequentially. Because data travels through many nodes, repeaters are used to prevent data loss.</p>
+                    </div>
+
+                    <!-- Star Topology -->
+                    <div>
+                        <div class="mermaid">
+                            graph TD
+                            Hub{Central Hub/Switch}
+                            Hub --- N1((Node))
+                            Hub --- N2((Node))
+                            Hub --- N3((Node))
+                            Hub --- N4((Node))
+                        </div>
+                        <p class="text-sm"><strong>Star Topology:</strong> All devices connect to a central hub or switch. It is easily expandable and failure of one cable only affects one node. However, if the central hub goes down, the entire network fails.</p>
+                    </div>
+
+                    <!-- Tree Topology -->
+                    <div>
+                        <div class="mermaid">
+                            graph TD
+                            Root{Root Hub} --- S1{Hub A}
+                            Root --- S2{Hub B}
+                            S1 --- N1((Node))
+                            S1 --- N2((Node))
+                            S2 --- N3((Node))
+                        </div>
+                        <p class="text-sm"><strong>Tree Topology:</strong> Combines bus and star topologies in a parent-child hierarchy with a root node. It is easily expandable and manageable, but relies heavily on the main bus cable.</p>
+                    </div>
+
+                    <!-- Mesh Topology -->
+                    <div>
+                        <div class="mermaid">
+                            graph TD
+                            A((Node)) --- B((Node))
+                            A --- C((Node))
+                            A --- D((Node))
+                            B --- C
+                            B --- D
+                            C --- D
+                        </div>
+                        <p class="text-sm"><strong>Mesh Topology:</strong> Features multiple redundant paths between computers. It is highly reliable because a broken link doesn't stop communication, but it is expensive and incredibly complex to manage.</p>
+                    </div>
+
+                    <!-- Hybrid Topology -->
+                    <div>
+                        <div class="mermaid">
+                            graph LR
+                            subgraph Star Network
+                            H{Hub} --- N1((Node))
+                            H --- N2((Node))
+                            end
+                            subgraph Ring Network
+                            A((Node)) --- B((Node)) --- C((Node)) --- A
+                            end
+                            H --- A
+                        </div>
+                        <p class="text-sm"><strong>Hybrid Topology:</strong> A combination of two or more different topologies. It is flexible and reliable, but carries a high infrastructure cost and complex design.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">OSI and TCP/IP Models</h3>
+                <div class="grid md:grid-cols-2 gap-6 items-center">
+                    <div class="mermaid text-sm">
+                        graph BT
+                            L7[7. Application] --- L6[6. Presentation]
+                            L6 --- L5[5. Session]
+                            L5 --- L4[4. Transport]
+                            L4 --- L3[3. Network]
+                            L3 --- L2[2. Data Link]
+                            L2 --- L1[1. Physical]
+                    </div>
+                    <div class="text-sm space-y-3">
+                        <p><strong>OSI Model:</strong> Divides network communication into 7 distinct layers.</p>
+                        <ol class="list-decimal ml-5 space-y-1">
+                            <li><strong>Physical:</strong> Handles binary transmission, voltage levels, and physical media.</li>
+                            <li><strong>Data Link:</strong> Breaks data into frames, handles MAC addressing, and provides error and flow control.</li>
+                            <li><strong>Network:</strong> Routes packets through the network and defines logical addressing (IP).</li>
+                            <li><strong>Transport:</strong> Ensures reliable, error-free, end-to-end message transmission (TCP/UDP).</li>
+                            <li><strong>Session:</strong> Establishes, maintains, and synchronizes dialogs between systems.</li>
+                            <li><strong>Presentation:</strong> Handles data formatting, compression, and encryption.</li>
+                            <li><strong>Application:</strong> Interacts directly with software applications.</li>
+                        </ol>
+                        <p class="mt-4 p-3 bg-blue-50 rounded"><strong>TCP/IP Model:</strong> A streamlined 4-layer conceptual model consisting of Application, Transport, Internet (Network), and Network Access (Data Link/Physical) layers.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Overview of Networking Devices</h3>
+                <ul class="space-y-3 text-sm list-disc ml-5">
+                    <li><strong>Repeater:</strong> Operates at the physical layer to regenerate weak signals before they corrupt.</li>
+                    <li><strong>Hubs:</strong> Connect several computers. They cannot filter data and instead broadcast packets to all connected devices, making them inefficient. Active hubs amplify signals, while passive hubs do not.</li>
+                    <li><strong>Switches:</strong> Data link layer devices that perform error checking before selectively forwarding data only to the correct port.</li>
+                    <li><strong>Routers:</strong> Network layer devices that connect different networks (LANs to WANs) and route data packets dynamically using a routing table based on IP addresses.</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Network Protocols and Standards</h3>
+                <div class="text-sm space-y-2">
+                    <p><strong>Protocols:</strong> A set of rules covering data formatting, transmission, error handling, and security. Key elements include syntax (format), semantics (meaning), and timing.</p>
+                    <p><strong>Standards:</strong> Accepted design rules that ensure devices from different manufacturers are compatible. They can be <em>De Facto</em> (widely used but not officially approved) or <em>De Jure</em> (officially approved by bodies like IEEE).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- UNIT 2 -->
+        <section id="unit2">
+            <h2 class="text-2xl border-b-2 border-blue-500 mb-6 mt-10 pb-2">Unit 2: Data Communication & Transmission Techniques</h2>
+            
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Analog vs. Digital Signals</h3>
+                <div class="grid md:grid-cols-2 gap-6 mb-4">
+                    <div class="bg-gray-50 p-3 rounded">
+                        <p class="text-sm font-bold text-center mb-2">Analog Signal (Continuous)</p>
+                        <canvas id="analogChart"></canvas>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded">
+                        <p class="text-sm font-bold text-center mb-2">Digital Signal (Discrete)</p>
+                        <canvas id="digitalChart"></canvas>
+                    </div>
+                </div>
+                <div class="text-sm space-y-2">
+                    <p><strong>Analog Signal:</strong> A continuous, time-varying signal with an infinite number of values within a specific range. They preserve original signals but produce high noise.</p>
+                    <p><strong>Digital Signal:</strong> Represents data as a sequence of discrete, discontinuous values (1s and 0s). They do not produce noise and are easier to analyze and store.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Data Encoding Techniques</h3>
+                <p class="text-sm mb-4">Line coding converts digital data into digital signals.</p>
+                <div class="bg-gray-50 p-4 rounded mb-4 max-w-2xl mx-auto">
+                    <p class="text-sm font-bold text-center mb-2">Unipolar NRZ (Non-Return-to-Zero) Signal</p>
+                    <canvas id="nrzChart"></canvas>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <p><strong>Unipolar:</strong> Uses only one polarity (e.g., positive voltage for 1, zero voltage for 0). It is problematic because it creates a DC component.</p>
+                    <p><strong>Polar & Bipolar:</strong> Bipolar uses three voltage levels (positive, negative, zero) where alternate 1s use opposite polarities to prevent DC components.</p>
+                    <p><strong>Manchester Encoding:</strong> Uses an inversion at the middle of each bit interval (e.g., negative-to-positive is binary 1).</p>
+                    <p><strong>Differential Manchester:</strong> Uses a transition to represent binary 0 and no transition for binary 1.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Transmission Impairments</h3>
+                <p class="text-sm mb-2">As signals travel, they degrade due to three main causes:</p>
+                <ol class="list-decimal ml-5 text-sm space-y-2 bg-red-50 p-4 rounded-lg">
+                    <li><strong>Attenuation:</strong> The loss of signal energy over distance, requiring amplifiers.</li>
+                    <li><strong>Distortion:</strong> Changes in signal shape because different frequencies travel at different speeds and arrive out of phase.</li>
+                    <li><strong>Noise:</strong> Unwanted signals including thermal noise, induced noise from appliances, crosstalk between wires, and impulse spikes.</li>
+                </ol>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Multiplexing Methods</h3>
+                <p class="text-sm mb-3">Allows multiple signals to share a single medium.</p>
+                <ul class="list-disc ml-5 text-sm space-y-2">
+                    <li><strong>FDM (Frequency-Division Multiplexing):</strong> An analog technique dividing available bandwidth into distinct frequency channels.</li>
+                    <li><strong>TDM (Time-Division Multiplexing):</strong> A digital technique where signals share the same frequency but take turns in time slots. It can be <em>Synchronous</em> (fixed slots) or <em>Asynchronous/Statistical</em> (dynamic slots based on need).</li>
+                    <li><strong>WDM (Wavelength-Division Multiplexing):</strong> Combines multiple optical signals on a single fiber using different colors (wavelengths) of light. Includes CWDM and DWDM.</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Switching Techniques</h3>
+                <div class="text-sm space-y-3">
+                    <p><strong>Circuit Switching:</strong> Establishes a dedicated, unbroken physical path between the sender and receiver. It guarantees capacity but is expensive and has a long connection setup time.</p>
+                    <p><strong>Message Switching:</strong> A store-and-forward method where the entire message travels node-to-node. It reduces congestion but requires massive storage disks.</p>
+                    <p><strong>Packet Switching:</strong> Messages are broken into small packets. In the <strong>Datagram</strong> approach, packets take independent routes and are reordered at the destination. In the <strong>Virtual Circuit</strong> approach, a preplanned logical route is established first.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-5">Transmission Media Types</h3>
+                
+                <div class="mb-6 bg-slate-50 p-4 rounded-lg">
+                    <h4 class="font-bold mb-4 text-center">Guided (Wired) Media Structure</h4>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <!-- Twisted Pair Diagram -->
+                        <div class="text-center border-r-0 md:border-r border-gray-200">
+                            <svg viewBox="0 0 300 120" class="w-full max-w-xs mx-auto block mb-3 h-auto">
+                                <path d="M 20 60 Q 50 10 80 60 T 140 60 T 200 60 T 260 60" fill="none" stroke="#2563eb" stroke-width="12" stroke-linecap="round"/>
+                                <path d="M 20 60 Q 50 110 80 60 T 140 60 T 200 60 T 260 60" fill="none" stroke="#ea580c" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+                            </svg>
+                            <p class="text-xs font-bold text-gray-600">Twisted-Pair Cable Diagram</p>
+                        </div>
+                        
+                        <!-- Coaxial Diagram -->
+                        <div class="text-center">
+                            <svg viewBox="0 0 400 140" class="w-full max-w-sm mx-auto block mb-3 h-auto">
+                                <!-- Outer Jacket -->
+                                <rect x="20" y="40" width="100" height="60" fill="#1f2937" rx="5"/>
+                                <text x="70" y="25" text-anchor="middle" font-size="12" fill="#374151">Outer Jacket</text>
+                                <!-- Shield -->
+                                <rect x="120" y="45" width="80" height="50" fill="#9ca3af"/>
+                                <path d="M120 45 L200 95 M120 55 L200 105 M140 45 L200 85 M120 65 L180 105" stroke="#4b5563" stroke-width="2" opacity="0.4"/>
+                                <text x="160" y="125" text-anchor="middle" font-size="12" fill="#374151">Braided Shield</text>
+                                <!-- Dielectric Insulator -->
+                                <rect x="200" y="50" width="90" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+                                <text x="245" y="25" text-anchor="middle" font-size="12" fill="#374151">Dielectric Insulator</text>
+                                <!-- Copper Core -->
+                                <rect x="290" y="65" width="90" height="10" fill="#d97706" rx="2"/>
+                                <text x="335" y="125" text-anchor="middle" font-size="12" fill="#374151">Copper Core</text>
+                            </svg>
+                            <p class="text-xs font-bold text-gray-600">Coaxial Cable Diagram</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-sm space-y-3">
+                    <p><strong>Guided (Wired):</strong> Twisted-Pair cable (UTP/STP), Coaxial cable, and Fiber-Optic cable (uses light pulses through a glass/plastic core and cladding).</p>
+                    <p><strong>Unguided (Wireless):</strong> Transport electromagnetic waves without physical conductors. Includes Radio waves (omnidirectional), Microwaves (unidirectional, line-of-sight), and Infrared (short-range, blocked by walls).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- UNIT 3 -->
+        <section id="unit3">
+            <h2 class="text-2xl border-b-2 border-blue-500 mb-6 mt-10 pb-2">Unit 3: Data Link Control & MAC Protocols</h2>
+            
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Error Detection and Correction Techniques</h3>
+                <p class="text-sm mb-3">Because data can be corrupted, redundancy bits are added.</p>
+                <div class="text-sm space-y-2">
+                    <p><strong>Detection:</strong> VRC (Vertical Redundancy Check/Parity), LRC (Longitudinal Redundancy Check), Checksum, and CRC (Cyclic Redundancy Check).</p>
+                    <p><strong>Correction:</strong> The <strong>Hamming Code</strong> is used to pinpoint the exact location of a damaged bit so the receiver can reverse it.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Flow Control Mechanisms</h3>
+                <div class="text-sm space-y-3">
+                    <p>Ensures a fast sender does not overwhelm a slow receiver.</p>
+                    <p><strong>Stop-and-Wait:</strong> The source transmits one frame and waits for an acknowledgment (ACK) before sending the next.</p>
+                    <p><strong>Sliding Window:</strong> Allows multiple numbered frames to be transmitted without an immediate ACK. The receiver uses a buffer window to track them.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">MAC Addressing and ARQ Protocols</h3>
+                <div class="text-sm space-y-3">
+                    <p><strong>MAC Addressing:</strong> Every device's Network Interface Card (NIC) has a 6-byte (48-bit) physical address written in hexadecimal. It can be Unicast, Multicast, or Broadcast.</p>
+                    <p><strong>ARQ (Automatic Repeat Request):</strong> Combines error detection with retransmission.</p>
+                    <ul class="list-disc ml-5 space-y-2 bg-yellow-50 p-4 rounded-lg">
+                        <li><strong>Stop-and-Wait ARQ:</strong> If a frame or ACK is lost/damaged, the sender's timer expires, and it retransmits the frame.</li>
+                        <li><strong>Go-Back-N ARQ:</strong> If one frame fails, the receiver rejects it, and the sender must retransmit the failed frame <em>and all subsequent frames</em> in the window.</li>
+                        <li><strong>Selective Reject ARQ:</strong> Only the specific rejected frame is retransmitted, while the receiver buffers the subsequent good frames.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Ethernet Standards</h3>
+                <p class="text-sm">Defined by IEEE 802.3. It has evolved from Standard Ethernet (10 Mbps) to Fast Ethernet (100 Mbps), Gigabit Ethernet (1 Gbps), and Ten-Gigabit Ethernet (10 Gbps). The Ethernet frame consists of fields including the Preamble, SFD, Destination/Source Address, Length/Type, Data payload, and CRC.</p>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-3">Wireless LAN Protocols</h3>
+                <div class="text-sm space-y-3">
+                    <p><strong>Wi-Fi (IEEE 802.11):</strong> Operates on 2.4 GHz and 5 GHz frequency bands. It supports infrastructure and ad-hoc networks but is susceptible to interference.</p>
+                    <p><strong>Bluetooth (IEEE 802.15.1):</strong> A short-range standard for ad-hoc networks, utilizing UHF radio waves. Devices connect in a "Piconet" or "Scatternet" structure. Includes a Low Energy (BLE) version.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- UNIT 4 -->
+        <section id="unit4" class="mb-20">
+            <h2 class="text-2xl border-b-2 border-blue-500 mb-6 mt-10 pb-2">Unit 4: Network Communication Protocols</h2>
+            
+            <div class="content-card">
+                <h3 class="text-xl mb-4">Application Protocols</h3>
+                <div class="space-y-4 text-sm">
+                    <p><strong>HTTP/HTTPS (Hypertext Transfer Protocol):</strong> The sources note this is used for "Web data transfer". HTTP is the foundation of data communication on the World Wide Web. It dictates how messages are formatted and transmitted, and how web browsers and servers should respond to commands. It operates over TCP port 80. HTTPS is the secure version, utilizing TLS/SSL encryption over TCP port 443 to protect data privacy.</p>
+                    <hr>
+                    <p><strong>FTP (File Transfer Protocol):</strong> The sources state this is used for "File sharing". FTP is a standard network protocol used to transfer computer files between a client and a server. It uses separate control and data connections, allowing a user to authenticate, list directories, and download/upload files reliably.</p>
+                    <hr>
+                    <p><strong>SMTP (Simple Mail Transfer Protocol):</strong> The sources state this is used for "Email sending". SMTP is the industry standard for sending emails across the internet. Mail servers use it to push messages to other servers, routing the email toward its destination. It relies heavily on DNS to find the mail exchanger (MX) records of the receiving domain.</p>
+                    <hr>
+                    <p><strong>DNS (Domain Name System):</strong> The sources state it "Converts URLs to IP addresses". DNS acts as the phonebook of the internet. Because humans read domain names (like www.google.com) but computers route data using IP addresses (like 192.168.1.1), DNS servers query a distributed database to translate the human-readable hostname into the machine-readable IP address required to load internet resources.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="text-xl mb-4">Transport Layer Protocols</h3>
+                <div class="space-y-4 text-sm">
+                    <p><strong>TCP (Transmission Control Protocol):</strong> The sources note it provides "Reliable delivery with error checking" and "Management of end-to-end message transmission". TCP is a connection-oriented protocol. Before data is sent, it establishes a dedicated connection via a "three-way handshake." It ensures that all packets arrive intact and in the exact order they were sent by utilizing sequence numbers and requiring acknowledgments. If a packet is lost, TCP automatically requests a retransmission, making it highly reliable.</p>
+                    <hr>
+                    <p><strong>UDP (User Datagram Protocol):</strong> The sources note it provides "End-to-end delivery". UDP is a connectionless protocol. Unlike TCP, it does not establish a connection before sending data, nor does it check for lost packets or guarantee delivery order. Because it avoids this overhead, it is much faster than TCP and is primarily used in time-sensitive applications like live video streaming, online gaming, and VoIP calls, where occasional packet loss is acceptable.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+<!-- START OF NETWORKING SUBJECT CONTENT -->
+<div style="max-width: 1200px; margin: 0 auto; padding: 10px;">
+    <h1>Networking & Network Models</h1>
+
+    <!-- UNIT 1 -->
+    <h2>Unit 1: Introduction to Networking & Network Models</h2>
+    <div class="content-card">
+        <h3>Part A – Very Short Questions (1 Mark)</h3>
+        <p><strong>1. Define DNS.</strong><br>DNS (Domain Name System) is an application layer protocol that converts human-readable URLs (web addresses) into machine-readable IP addresses.</p>
+        <p><strong>2. What does IP stand for?</strong><br>IP stands for Internet Protocol. It is responsible for logical packet addressing and routing across networks.</p>
+        <p><strong>3. Which layer of OSI is responsible for encryption?</strong><br>The Presentation Layer (Layer 6) of the OSI model is responsible for data representation, data compression, and data encryption (cryptography).</p>
+        <p><strong>4. What is the main function of a router?</strong><br>A router is a network layer device that connects different networks together and dynamically routes data packets based on their IP addresses.</p>
+        <p><strong>5. Name one wireless protocol.</strong><br>Wi-Fi (IEEE 802.11) and Bluetooth (IEEE 802.15.1) are common wireless protocols used for short-range and local network data communication.</p>
+        <p><strong>6. Write the full form of SMTP.</strong><br>SMTP stands for Simple Mail Transfer Protocol. It is an application-level protocol used for email sending.</p>
+        <p><strong>7. What is the function of a repeater?</strong><br>A repeater operates at the physical layer to receive a weak signal, copy it bit by bit, and regenerate it at its original strength before passing it on.</p>
+        <p><strong>8. Name the topmost layer in the TCP/IP model.</strong><br>The Application Layer is the topmost conceptual layer in the TCP/IP model.</p>
+    </div>
+
+    <div class="content-card">
+        <h3>Part B – Short Answer Questions (2 Marks)</h3>
+        <p><strong>9. Define a computer network.</strong><br>A computer network is a group of interconnected computers and devices linked to each other. It enables these devices to communicate, exchange data, and share physical or logical resources efficiently.</p>
+        <p><strong>10. List any three advantages of computer networks.</strong><br>Three major advantages of computer networks include the ability to share resources and ease of access, efficient person-to-person communication and collaboration, and centralized data management and storage.</p>
+        <p><strong>11. What is the main disadvantage of using a centralized network?</strong><br>A major disadvantage is the dependency on a single central server or hub, such as in a star topology. If this central infrastructure fails or goes offline, the entire network is disrupted and communication stops.</p>
+        <p><strong>12. Define LAN, MAN, and WAN.</strong><br>A LAN (Local Area Network) operates within a limited geographic area to connect physically adjacent devices. A WAN (Wide Area Network) connects devices over massive geographic areas, even globally, using telecommunication carriers. (Standard knowledge: A MAN, or Metropolitan Area Network, spans an intermediate area like a city or large campus).</p>
+        <p><strong>13. What is network topology? Name any four types.</strong><br>Network topology defines the physical or logical structure of how all the components and nodes in a network are interconnected. Four common types of network topologies are Bus, Star, Ring, and Mesh topologies.</p>
+        <p><strong>14. Define a protocol and give two examples.</strong><br>A protocol is a set of rules that governs data transmission, covering aspects like data formatting, timing, error handling, and security. Two examples are TCP (for reliable delivery) and HTTP (for web data transfer).</p>
+        <p><strong>15. What is a standard? Differentiate between De Facto and De Jure standards.</strong><br>A standard is a set of accepted design rules that ensure compatibility between different systems and devices. "De Facto" standards are widely used but not officially approved by a body (e.g., Apple ecosystem), whereas "De Jure" standards are officially approved by organizations like ISO or IEEE.</p>
+        <p><strong>16. Name any four networking devices and their functions.</strong><br>A Hub broadcasts data blindly to all ports. A Switch selectively forwards packets error-free to the correct port. A Router connects networks and routes packets dynamically based on IP addresses. A Repeater regenerates weak physical signals to extend their range.</p>
+        <p><strong>17. Write any two differences between OSI and TCP/IP models.</strong><br>The OSI reference model rigidly divides network communication into seven distinct layers, whereas the TCP/IP conceptual model streamlines this into four layers. Furthermore, OSI is primarily a theoretical reference model, while TCP/IP is the practical protocol suite that runs the internet.</p>
+        <p><strong>18. What is DHCP and why is it used?</strong><br>DHCP stands for Dynamic Host Configuration Protocol. It is used to automatically and dynamically assign IP addresses to devices from a pool, making network management efficient and cost-effective.</p>
+    </div>
+
+    <!-- UNIT 2 -->
+    <h2>Unit 2: Data Communication and Transmission Techniques</h2>
+    <div class="content-card">
+        <h3>Part A – Very Short Questions (1 Mark)</h3>
+        <p><strong>1. Define Analog Signal.</strong><br>An analog signal is a continuous, time-varying electrical current that is bound to a range and possesses an infinite number of values within that continuous range.</p>
+        <p><strong>2. Define Digital Signal.</strong><br>A digital signal represents data as a sequence of discrete, discontinuous values, taking on only one value from a finite set at any given time.</p>
+        <p><strong>3. What is data encoding?</strong><br>Data encoding (or line coding) is the process of converting internal digital data, represented as 1s and 0s, into digital signals for transmission across a medium.</p>
+        <p><strong>4. Expand NRZ.</strong><br>NRZ stands for Non-Return to Zero. It is a polar encoding technique where the voltage level does not return to zero during a bit interval.</p>
+        <p><strong>5. Write the full form of FDM.</strong><br>FDM stands for Frequency-Division Multiplexing. It is an analog technique that subdivides the available bandwidth of a medium into several frequency channels.</p>
+        <p><strong>6. Define attenuation.</strong><br>Attenuation is a transmission impairment causing the loss of signal energy as it travels through overcoming the resistance of the medium, resulting in a weaker signal.</p>
+        <p><strong>7. Which encoding technique uses transitions in the middle of a bit interval?</strong><br>Both Manchester Encoding and Differential Manchester Encoding use transitions (or inversions) directly at the middle of each bit interval for synchronization.</p>
+        <p><strong>8. Name any two guided transmission media.</strong><br>Two examples of guided (wired) transmission media are Twisted-Pair cables (such as UTP or STP) and Coaxial cables.</p>
+    </div>
+
+    <div class="content-card">
+        <h3>Part B – Short Answer Questions (2 Marks)</h3>
+        <p><strong>9. List any two differences between analog and digital signals.</strong><br>Analog signals provide a continuous representation of data and preserve original signal shapes, but they produce too much noise. Digital signals provide a discontinuous representation, do not produce noise, and are much easier to analyze and store.</p>
+        <p><strong>10. What is the function of Manchester Encoding?</strong><br>Manchester encoding represents binary 1 as a negative-to-positive transition and binary 0 as a positive-to-negative transition. It uses an inversion exactly at the middle of each bit interval, which provides built-in clock synchronization for the receiver.</p>
+        <p><strong>11. Define and compare NRZ-L and NRZ-I.</strong><br>Both are Polar Non-Return to Zero encoding schemes. NRZ-L changes its voltage level whenever a different bit is encountered. NRZ-I changes its voltage level only when a bit '1' is encountered, which aids in signal synchronization.</p>
+        <p><strong>12. Define Multiplexing. List its types.</strong><br>Multiplexing allows multiple input signals to share a single common transmission medium, thereby avoiding collisions and making transmission cost-effective. Its main types are Frequency-Division Multiplexing (FDM), Wavelength-Division Multiplexing (WDM), and Time-Division Multiplexing (TDM).</p>
+        <p><strong>13. What is the effect of noise on signal transmission?</strong><br>Noise introduces unwanted electrical signals—such as thermal noise, crosstalk, or impulse spikes from power lines—into the transmission medium. These unwanted signals merge with the original transmission, causing the received signal to be distorted or corrupted.</p>
+        <p><strong>14. Write the advantages of Differential Manchester Encoding.</strong><br>Differential Manchester relies on an inversion in the middle of the bit to provide robust clock synchronization. Since it uses transitions rather than fixed voltage levels to represent logic (a transition means 0, no transition means 1), it reliably prevents DC component issues and handles noise better.</p>
+        <p><strong>15. Mention the difference between TDM and FDM.</strong><br>In Frequency-Division Multiplexing (FDM), multiple signals operate at the exact same time but utilize different, subdivided frequency channels. In Time-Division Multiplexing (TDM), all signals use the same frequency but operate at different times by taking turns in specific time slots.</p>
+        <p><strong>16. List two characteristics of infrared transmission.</strong><br>Infrared operates in the frequency range of 300 GHz to 400 THz and is strictly used for short-range, line-of-sight propagation. Because it cannot penetrate walls, it provides a high level of natural security confined to a single room.</p>
+        <p><strong>17. You are given the following characteristics: Voltage changes in the middle of each bit, High-to-low transition for bit 1 and low-to-high for bit 0. Identify the encoding scheme used and justify your answer.</strong><br>This describes Manchester Encoding. Manchester encoding utilizes a mandatory transition at the middle of each bit interval to represent logic states, combining both the data and the clock synchronization signal into a single transmitting wave.</p>
+        <p><strong>18. Write any two applications of fiber optic cables.</strong><br>Fiber-optic cables are widely utilized in major backbone networks (like SONET) because their extremely wide bandwidth makes them cost-effective over long distances. They are also heavily used by Cable TV companies and high-speed LANs, such as Fast Ethernet.</p>
+    </div>
+
+    <!-- UNIT 3 -->
+    <h2>Unit 3: Data Link Control & MAC Protocols</h2>
+    <div class="content-card">
+        <h3>Part A – Very Short Questions (1 Mark)</h3>
+        <p><strong>1. Define framing in data link control.</strong><br>Framing is a process performed by the Data Link Layer that divides the continuous bitstream into manageable, formatted units called frames.</p>
+        <p><strong>2. What is a single-bit error?</strong><br>A single-bit error means that exactly one bit within a given data unit has been altered from a 1 to a 0, or from a 0 to a 1 during transmission.</p>
+        <p><strong>3. Expand CRC.</strong><br>CRC stands for Cyclic Redundancy Check, which is a mathematical error detection method utilizing polynomial binary division.</p>
+        <p><strong>4. State the purpose of redundancy in error detection.</strong><br>Redundancy involves appending extra, predictable bits to the data unit at the sender's side so the receiver can verify whether the data was corrupted during transit.</p>
+        <p><strong>5. Define parity bit.</strong><br>A parity bit is an extra redundancy bit added to a data unit (in Vertical Redundancy Check) to ensure that the total number of 1s in the unit is either consistently even or odd.</p>
+        <p><strong>6. What is a MAC address?</strong><br>A MAC (Media Access Control) address is a unique, physical hardware address assigned to a device's Network Interface Card (NIC) for local network communication.</p>
+        <p><strong>7. List any one type of ARQ protocol.</strong><br>One type of Automatic Repeat Request (ARQ) protocol is Stop-and-Wait ARQ.</p>
+        <p><strong>8. Name the standard IEEE LAN protocol number for Ethernet.</strong><br>The standard IEEE LAN protocol number for Ethernet is IEEE 802.3.</p>
+        <p><strong>9. What is checksum?</strong><br>Checksum is an error-detection technique where a data unit is divided into sections, added using one's complement, and the complemented sum is sent alongside the data.</p>
+        <p><strong>10. What does ARQ stand for?</strong><br>ARQ stands for Automatic Repeat Request, representing error control schemes that involve error detection and automatic retransmission of corrupted frames.</p>
+        <p><strong>11. State one limitation of Stop-and-Wait ARQ.</strong><br>Stop-and-Wait ARQ is highly inefficient because the sender is forced to pause and wait for an acknowledgment before sending the next frame, leading to poor link utilization.</p>
+        <p><strong>12. What is the minimum size of an Ethernet frame?</strong><br>The minimum size of a standard Ethernet frame is 64 bytes (including the MAC header, payload, and FCS).</p>
+        <p><strong>13. Write the full form of CSMA/CD.</strong><br>CSMA/CD stands for Carrier Sense Multiple Access with Collision Detection, which is the access method historically used by IEEE 802.3 Ethernet.</p>
+    </div>
+
+    <div class="content-card">
+        <h3>Part B – Short Answer Questions (2 Marks)</h3>
+        <p><strong>14. Differentiate between single-bit error and burst error.</strong><br>A single-bit error corrupts only one bit in a data unit, which is highly unlikely in serial transmission. A burst error corrupts two or more bits in a data unit, which is much more common in serial transmission due to extended noise durations.</p>
+        <p><strong>15. What is checksum? How does it work in error detection?</strong><br>Checksum works by dividing the data unit into 'k' sections of 'n' bits. The sender adds all sections using one’s complement, complements the final sum to create the checksum, and sends it. The receiver repeats this process; if the final complemented result is zero, the data is accepted.</p>
+        <p><strong>16. Explain forward error correction and backward error correction.</strong><br>Forward error correction involves the receiver using an error-correcting code (like the Hamming code) to automatically pinpoint and reverse corrupted bits without needing the sender again. Backward error correction relies on the receiver asking the sender to retransmit the entire data unit via an ARQ protocol.</p>
+        <p><strong>17. List advantages and disadvantages of error detection.</strong><br>Error detection ensures high communication reliability by catching corrupted packets using redundancy checks (like VRC or CRC). However, simple methods like Checksum or VRC can easily fail to detect errors if an even number of bits are damaged in corresponding positions simultaneously.</p>
+        <p><strong>18. Define flow control. List its two categories.</strong><br>Flow control is a mechanism that ensures a fast-sending entity does not overwhelm a slower-receiving entity by preventing buffer overflows. Its two main categories are Stop-and-Wait flow control and Sliding Window flow control.</p>
+        <p><strong>19. Explain Stop-and-Wait flow control with example.</strong><br>In Stop-and-Wait, the source transmits a single frame and completely halts. It waits until the destination receives the frame and replies with an acknowledgment (ACK). Only after receiving the ACK does the sender transmit the next frame, which works well for a few large frames.</p>
+        <p><strong>20. Differentiate between Go-Back-N ARQ and Selective Repeat ARQ.</strong><br>In Go-Back-N ARQ, if a single frame fails, the receiver rejects it, and the sender must blindly retransmit the failed frame along with all subsequent frames. In Selective Repeat ARQ, only the specifically rejected frame is retransmitted, while the receiver intelligently buffers the subsequent good frames.</p>
+        <p><strong>21. What is the minimum and maximum size of an Ethernet frame?</strong><br>The IEEE 802.3 standard defines the minimum Ethernet frame size as 64 bytes and the maximum standard frame size as 1518 bytes.</p>
+        <p><strong>22. Write short note on Unicast, Multicast, and Broadcast addresses.</strong><br>A unicast address routes data directly from one sender to one specific receiver. A multicast address routes data to a specific, subscribed group of receivers. A broadcast address sends a data packet to absolutely every device currently connected to the local network.</p>
+        <p><strong>23. State two advantages of error correction over error detection.</strong><br>Error correction (like Hamming Code) mathematically pinpoints the exact location of a corrupted bit so the receiver can reverse it instantly. This eliminates the need for the sender to retransmit the data, saving significant bandwidth and reducing transmission delays.</p>
+        <p><strong>24. List the fields of an IEEE 802.3 MAC frame.</strong><br>While specific fields vary slightly by implementation, an Ethernet MAC frame typically consists of a Preamble, Start Frame Delimiter (SFD), Destination Address, Source Address, Length/Type field, Data Payload, and a Frame Check Sequence (CRC).</p>
+        <p><strong>25. Define unicast, multicast, and broadcast with examples.</strong><br>Unicast is one-to-one communication, such as an ARP reply sent exclusively back to the requesting router. Broadcast is one-to-all communication, like an initial ARP request sent to every computer on a LAN. Multicast is one-to-many communication directed at a designated subset of devices.</p>
+    </div>
+
+    <!-- UNIT 4 -->
+    <h2>Unit 4: Routing, IP Networking & Security</h2>
+    <div class="content-card">
+        <h3>Part A – Very Short Questions (1 Mark)</h3>
+        <p><strong>1. Define an IP address.</strong><br>An IP (Internet Protocol) address is a unique string of numbers that serves as a logical address to identify every device connected to the internet or a local network.</p>
+        <p><strong>2. Expand IPv4 and IPv6.</strong><br>IPv4 stands for Internet Protocol version 4, and IPv6 stands for Internet Protocol version 6.</p>
+        <p><strong>3. What is the size of an IPv4 address in bits?</strong><br>An IPv4 address is exactly 32 bits in length.</p>
+        <p><strong>4. Give one example of a private IPv4 address.</strong><br>A very common example of a private IPv4 address is 192.168.1.1.</p>
+        <p><strong>5. What is the range of Class A IP addresses?</strong><br>The range of Class A IP addresses spans from 1.0.0.0 to 126.255.255.255, designed to support networks with a massive number of hosts.</p>
+        <p><strong>6. Expand CIDR.</strong><br>CIDR stands for Classless Inter-Domain Routing.</p>
+        <p><strong>7. Define subnet mask.</strong><br>A subnet mask is a number that extends the natural network mask by borrowing bits from the host ID portion to mathematically create a subnetwork ID.</p>
+        <p><strong>8. What is the full form of DHCP?</strong><br>DHCP stands for Dynamic Host Configuration Protocol.</p>
+        <p><strong>9. What does ICMP stand for?</strong><br>ICMP stands for Internet Control Message Protocol.</p>
+        <p><strong>10. Name any one distance vector routing protocol.</strong><br>Two practical implementations of distance vector routing protocols are RIP (Routing Information Protocol) and IGRP.</p>
+        <p><strong>11. Which algorithm is used by Link State routing?</strong><br>Link State routing protocols (like OSPF) use the Shortest Path First (SPF) algorithm, which is based on Dijkstra's algorithm.</p>
+        <p><strong>12. Expand ARP.</strong><br>ARP stands for Address Resolution Protocol.</p>
+        <p><strong>13. State the purpose of NAT.</strong><br>Network Address Translation (NAT) allows multiple devices on a private network to share a single public IP address to access the internet, mitigating the IPv4 shortage.</p>
+        <p><strong>14. What does VPN stand for?</strong><br>VPN stands for Virtual Private Network.</p>
+        <p><strong>15. Define firewall in networking.</strong><br>A firewall is a software program or hardware device that filters traffic entering a private network based on a common security policy to prevent unauthorized external access.</p>
+    </div>
+
+    <div class="content-card">
+        <h3>Part B – Short Answer Questions (2 Marks)</h3>
+        <p><strong>16. Differentiate between public IP address and private IP address.</strong><br>Public IP addresses are globally unique and are assigned by ISPs to devices that directly access the internet. Private IP addresses are only unique locally within home or office networks and cannot communicate directly with the internet without NAT.</p>
+        <p><strong>17. Write a short note on static vs dynamic IP addressing.</strong><br>Static IP addresses are permanently assigned and are highly reliable for network servers requiring consistent access. Dynamic IP addresses are temporarily assigned from an available pool via DHCP, making them highly cost-effective for standard consumer devices.</p>
+        <p><strong>18. State advantages of subnetting.</strong><br>Subnetting allows network administrators to divide a massive network into smaller, logical subnetworks. This significantly increases routing efficiency, minimizes the size of the broadcast domain (reducing traffic congestion), and enhances overall network security.</p>
+        <p><strong>19. Explain CIDR with an example.</strong><br>CIDR (Classless Inter-Domain Routing) discards traditional rigid IP classes, instead splitting networks using a flexible prefix. For example, assigning 190.5.4.16/28 allocates exactly 14 usable IP addresses to a company, preventing address waste.</p>
+        <p><strong>20. Differentiate between IPv4 and IPv6 (any four points).</strong><br>1. IPv4 uses a 32-bit address; IPv6 uses a 128-bit address. 2. IPv4 uses decimal format (dots); IPv6 uses hexadecimal format (colons). 3. IPv4 has a variable header size (20-60 bytes); IPv6 has a fixed 40-byte header. 4. IPv4 utilizes broadcast transmissions; IPv6 abandons broadcast for multicast and anycast.</p>
+        <p><strong>21. List the fields of an IPv4 datagram header.</strong><br>An IPv4 datagram header contains vital routing information including the source address, destination address, and fields to manage packet fragmentation. Crucially, it also contains a Checksum field designed specifically to check the integrity of the header itself.</p>
+        <p><strong>22. What is the role of ICMP in networking?</strong><br>ICMP operates at the network layer to send vital control and error-reporting messages. It notifies senders of issues like "destination unreachable" and is the underlying protocol driving diagnostic utilities like Ping and Traceroute.</p>
+        <p><strong>23. Explain ARP cache and ARP request.</strong><br>An ARP cache is a local table where a sender temporarily stores recently resolved MAC addresses for future use. If an address isn't cached, the sender broadcasts an ARP request across the LAN, asking the device with a specific IP address to reply with its MAC address.</p>
+        <p><strong>24. Differentiate between static and dynamic routing.</strong><br>Static routing relies on manually configured routing tables that do not adapt to network changes. Dynamic routing uses automated algorithms (like Distance Vector or Link-State) to dynamically calculate the most efficient paths based on real-time factors like congestion and cost.</p>
+        <p><strong>25. Write two advantages of link-state routing over distance vector routing.</strong><br>Link-State routing possesses global knowledge of the entire network topology, allowing it to converge much faster than distance vector routing. Furthermore, it completely avoids the "count to infinity" and persistent looping problems that plague distance vector algorithms.</p>
+        <p><strong>26. Define gateway of last resort.</strong><br>A gateway of last resort (or default gateway) is a router that acts as a passage to connect a local network to external networks (like the internet). It is where data packets are sent when their specific destination IP address does not match any route in the local routing table.</p>
+        <p><strong>27. Write short note on VPN.</strong><br>A Virtual Private Network (VPN) creates a secure, encrypted tunnel over the public internet. It provides strong authentication, hides the user's real IP address to ensure privacy, bypasses geographic restrictions, and allows remote employees to safely access corporate resources.</p>
+        <p><strong>28. State any two common network security threats.</strong><br>Two severe network security threats include Man-in-the-Middle (MitM) attacks, where hackers intercept unsecured communications to steal data, and SQL Injections, which exploit database vulnerabilities to extract sensitive information.</p>
+    </div>
+</div>
+<!-- END OF NETWORKING SUBJECT CONTENT -->
+
+    <script>
+        // Initialize Mermaid diagrams safely for formatting
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+
+        // 1. Analog Signal Chart
+        const ctxAnalog = document.getElementById('analogChart').getContext('2d');
+        new Chart(ctxAnalog, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 40}, (_, i) => i),
+                datasets: [{
+                    label: 'Sine Wave',
+                    data: Array.from({length: 40}, (_, i) => Math.sin(i * 0.3)),
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointRadius: 0
+                }]
+            },
+            options: { 
+                plugins: { legend: { display: false } },
+                scales: { x: { display: false }, y: { display: false } } 
+            }
+        });
+
+        // 2. Digital Signal Chart
+        const ctxDigital = document.getElementById('digitalChart').getContext('2d');
+        new Chart(ctxDigital, {
+            type: 'line',
+            data: {
+                labels: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
+                datasets: [{
+                    label: 'Square Wave',
+                    data: [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1],
+                    borderColor: 'rgb(16, 185, 129)',
+                    borderWidth: 3,
+                    stepped: true,
+                    pointRadius: 0
+                }]
+            },
+            options: { 
+                plugins: { legend: { display: false } },
+                scales: { 
+                    x: { display: false }, 
+                    y: { display: false, min: -0.2, max: 1.2 } 
+                } 
+            }
+        });
+
+        // 3. NRZ Encoding Chart
+        const ctxNRZ = document.getElementById('nrzChart').getContext('2d');
+        new Chart(ctxNRZ, {
+            type: 'line',
+            data: {
+                labels: ['Bit 1', 'Bit 0', 'Bit 1', 'Bit 1', 'Bit 0', 'Bit 1'],
+                datasets: [{
+                    label: 'Voltage Level (1=High, 0=Low)',
+                    data: [1, 0, 1, 1, 0, 1],
+                    borderColor: 'rgb(239, 68, 68)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    stepped: 'before',
+                    borderWidth: 3,
+                    fill: true
+                }]
+            },
+            options: { 
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    x: {
+                        grid: { display: true, color: '#e2e8f0' }
+                    },
+                    y: { 
+                        min: -0.5, 
+                        max: 1.5,
+                        ticks: {
+                            callback: function(value) {
+                                if(value === 1) return '+V (Binary 1)';
+                                if(value === 0) return '0V (Binary 0)';
+                                return '';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
